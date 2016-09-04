@@ -16,6 +16,7 @@
     <testsuites>
         <testsuite name="MF\Validator\TypeValidator Test Suite">
             <directory>./Tests</directory>
+            <directory>./vendor</directory>
         </testsuite>
     </testsuites>
 
