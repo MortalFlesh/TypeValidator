@@ -1,10 +1,10 @@
 <?php
 
-namespace MF\Validator\Tests;
+namespace MF\Tests\Fixtures;
 
-use MF\Validator\Tests\Fixtures\DifferentEntity;
-use MF\Validator\Tests\Fixtures\EntityInterface;
-use MF\Validator\Tests\Fixtures\SimpleEntity;
+use MF\Tests\Fixtures\DifferentEntity;
+use MF\Tests\Fixtures\EntityInterface;
+use MF\Tests\Fixtures\SimpleEntity;
 use MF\Validator\TypeValidator;
 
 class TypeValidatorTest extends \PHPUnit_Framework_TestCase
@@ -293,8 +293,8 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             \InvalidArgumentException::class,
-            'Invalid value type argument "MF\Validator\Tests\Fixtures\DifferentEntity"<object> given - ' .
-            '<instance of (MF\Validator\Tests\Fixtures\SimpleEntity)> expected'
+            'Invalid value type argument "MF\Tests\Fixtures\DifferentEntity"<object> given - ' .
+            '<instance of (MF\Tests\Fixtures\SimpleEntity)> expected'
         );
 
         $validator = new TypeValidator(

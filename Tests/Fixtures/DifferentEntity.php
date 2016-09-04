@@ -1,6 +1,6 @@
 <?php
 
-namespace MF\Validator\Tests\Fixtures;
+namespace MF\Tests\Fixtures;
 
 class DifferentEntity
 {
