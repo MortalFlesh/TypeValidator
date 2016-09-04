@@ -108,16 +108,10 @@ class TypeValidator
      */
     private function assertValidInstanceOf($valueType)
     {
-        $instanceOfLength = strlen(self::TYPE_INSTANCE_OF);
+        $class = $this->parseClass($valueType);
 
-        if (strlen($valueType) <= $instanceOfLength) {
-            throw new \InvalidArgumentException('Instance of has missing class to check');
-        } else {
-            $class = $this->parseClass($valueType);
-
-            if (!(class_exists($class) || interface_exists($class))) {
-                throw new \InvalidArgumentException(sprintf('Instance of has invalid class (%s)', $class));
-            }
+        if (!(class_exists($class) || interface_exists($class))) {
+            throw new \InvalidArgumentException(sprintf('Instance of has invalid class (%s)', $class));
         }
     }
 
