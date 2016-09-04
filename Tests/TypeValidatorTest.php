@@ -2,9 +2,6 @@
 
 namespace MF\Tests\Fixtures;
 
-use MF\Tests\Fixtures\DifferentEntity;
-use MF\Tests\Fixtures\EntityInterface;
-use MF\Tests\Fixtures\SimpleEntity;
 use MF\Validator\TypeValidator;
 
 class TypeValidatorTest extends \PHPUnit_Framework_TestCase
@@ -234,6 +231,10 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
                 'type' => TypeValidator::TYPE_INT,
                 'invalid' => '',
             ],
+            'string|bool' => [
+                'type' => TypeValidator::TYPE_STRING,
+                'invalid' => false,
+            ],
             'int|bool' => [
                 'type' => TypeValidator::TYPE_INT,
                 'invalid' => true,
@@ -312,5 +313,17 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
         return [
             'map/list' => [SimpleEntity::class, new DifferentEntity(1)],
         ];
+    }
+
+    public function testShouldThrowExceptionOnInvalidClassCreation()
+    {
+        $this->setExpectedException(\InvalidArgumentException::class, 'Instance of has invalid class (badClass)');
+
+        new TypeValidator(
+            TypeValidator::TYPE_STRING,
+            'badClass',
+            [TypeValidator::TYPE_STRING],
+            [TypeValidator::TYPE_INSTANCE_OF]
+        );
     }
 }
