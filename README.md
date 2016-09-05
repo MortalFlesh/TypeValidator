@@ -17,21 +17,7 @@ TypeValidator for asserting types of values
 
 ## <a name="installation"></a>Installation:
 ```
-//composer.json
-{
-    "require": {
-        "mf/type-validator": "dev-master"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "https://github.com/MortalFlesh/TypeValidator.git"
-        }
-    ]
-}
-
-// console
-composer install
+composer require mf/type-validator
 ```
 
 
