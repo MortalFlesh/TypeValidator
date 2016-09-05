@@ -1,7 +1,7 @@
 TypeValidator
 =============
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/mf/type-validator)](https://packagist.org/packages/mf/type-validator)
+[![Latest Stable Version](https://img.shields.io/packagist/v/mf/type-validator.svg)](https://packagist.org/packages/mf/type-validator)
 [![Build Status](https://travis-ci.org/MortalFlesh/TypeValidator.svg?branch=master)](https://travis-ci.org/MortalFlesh/TypeValidator)
 [![Coverage Status](https://coveralls.io/repos/github/MortalFlesh/TypeValidator/badge.svg?branch=master)](https://coveralls.io/github/MortalFlesh/TypeValidator?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/mf/type-validator.svg)](https://packagist.org/packages/mf/type-validator)
