@@ -3,6 +3,8 @@ TypeValidator
 
 [![Build Status](https://travis-ci.org/MortalFlesh/TypeValidator.svg?branch=master)](https://travis-ci.org/MortalFlesh/TypeValidator)
 [![Coverage Status](https://coveralls.io/repos/github/MortalFlesh/TypeValidator/badge.svg?branch=master)](https://coveralls.io/github/MortalFlesh/TypeValidator?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/mf/type-validator.svg)](https://packagist.org/packages/mf/type-validator)
+[![License](https://img.shields.io/packagist/l/mf/type-validator.svg)](https://packagist.org/packages/mf/type-validator)
 
 TypeValidator for asserting types of values
 
