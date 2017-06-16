@@ -12,15 +12,37 @@
     ],
     "autoload": {
         "psr-4": {
-            "MF\\Validator\\": "src",
+            "MF\\Validator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "MF\\Tests\\": "Tests"
         }
     },
     "require": {
-        "php": ">=5.5 || >=7.0"
+        "php": ">=7.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.7",
+        "phpunit/phpunit": "^6.0",
+        "phpstan/phpstan": "^0.6.3",
+        "friendsofphp/php-cs-fixer": "^2.1",
+        "squizlabs/php_codesniffer": "^2.8",
         "satooshi/php-coveralls": "^1.0"
+    },
+    "scripts": {
+        "test": [
+            "@cs",
+            "@phpunit",
+            "@phpstan"
+        ],
+        "cs": "vendor/bin/phpcs --standard=ruleset.xml .",
+        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist",
+        "phpstan": "vendor/bin/phpstan analyse -l 5 -c phpstan.neon src Tests",
+        "fix": [
+            "./bin/php-cs-fixer fix src",
+            "./bin/php-cs-fixer fix tests",
+            "./bin/phpcbf --standard=ruleset.xml ."
+        ]
     }
 }

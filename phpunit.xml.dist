@@ -19,6 +19,12 @@
         </testsuite>
     </testsuites>
 
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+
     <logging>
         <log type="coverage-html" target="./code-coverage" title="MF\Validator\TypeValidator"
              charset="UTF-8" yui="true" highlight="true"

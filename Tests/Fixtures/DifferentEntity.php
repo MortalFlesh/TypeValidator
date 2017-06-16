@@ -12,7 +12,7 @@ class DifferentEntity
      */
     public function __construct($id)
     {
-        $this->id = (int) $id;
+        $this->id = $id;
     }
 
     /**
