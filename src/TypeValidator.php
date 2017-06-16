@@ -52,11 +52,9 @@ class TypeValidator
 
     private function normalizeType(string $type): string
     {
-        if (!$this->isInstanceOfType($type) && !in_array($type, self::$types, true)) {
-            return self::TYPE_INSTANCE_OF . $type;
-        }
-
-        return $type;
+        return !$this->isInstanceOfType($type) && !in_array($type, self::$types, true)
+            ? self::TYPE_INSTANCE_OF . $type
+            : $type;
     }
 
     private function assertValidType(string $type, string $typeTitle, array $allowedTypes): void
