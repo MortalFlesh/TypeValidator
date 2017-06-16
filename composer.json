@@ -1,6 +1,6 @@
 {
     "name": "mf/type-validator",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "TypeValidator for asserting types of values",
     "type": "library",
     "license": "MIT",
