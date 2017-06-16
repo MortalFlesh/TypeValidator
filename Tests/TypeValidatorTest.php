@@ -11,22 +11,22 @@ use PHPUnit\Framework\TestCase;
 class TypeValidatorTest extends TestCase
 {
     /**
-     * @param string $keyType
-     * @param string $valueType
+     * @param string|null $keyType
+     * @param string|null $valueType
      * @param array $allowedKeyTypes
      * @param array $allowedValueTypes
      *
      * @dataProvider invalidCreationParamsProvider
      */
     public function testShouldThrowExceptionWhenBadTypeValidatorIsCreated(
-        $keyType,
-        $valueType,
+        ?string $keyType,
+        ?string $valueType,
         array $allowedKeyTypes,
         array $allowedValueTypes
     ) {
         $this->expectException(\InvalidArgumentException::class);
 
-        new TypeValidator($keyType, $valueType, $allowedKeyTypes, $allowedValueTypes);
+        new TypeValidator((string) $keyType, (string) $valueType, $allowedKeyTypes, $allowedValueTypes);
     }
 
     public function invalidCreationParamsProvider()
