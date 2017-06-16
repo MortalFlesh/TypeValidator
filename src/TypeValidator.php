@@ -28,13 +28,7 @@ class TypeValidator
     /** @var string */
     private $valueType;
 
-    /**
-     * @param string $keyType
-     * @param string $valueType
-     * @param array $allowedKeyTypes
-     * @param array $allowedValueTypes
-     */
-    public function __construct($keyType, $valueType, array $allowedKeyTypes, array $allowedValueTypes)
+    public function __construct(string $keyType, string $valueType, array $allowedKeyTypes, array $allowedValueTypes)
     {
         $keyType = $this->normalizeType($keyType);
         $valueType = $this->normalizeType($valueType);
@@ -49,36 +43,21 @@ class TypeValidator
         $this->valueType = $valueType;
     }
 
-    /**
-     * @param array $types
-     * @return array
-     */
-    private function normalizeTypes(array $types)
+    private function normalizeTypes(array $types): array
     {
         return array_map(function ($type) {
             return $this->normalizeType($type);
         }, $types);
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
-    private function normalizeType($type)
+    private function normalizeType(string $type): string
     {
-        if (!$this->isInstanceOfType($type) && !in_array($type, self::$types, true)) {
-            return self::TYPE_INSTANCE_OF . $type;
-        }
-
-        return $type;
+        return !$this->isInstanceOfType($type) && !in_array($type, self::$types, true)
+            ? self::TYPE_INSTANCE_OF . $type
+            : $type;
     }
 
-    /**
-     * @param string $type
-     * @param string $typeTitle
-     * @param array $allowedTypes
-     */
-    private function assertValidType($type, $typeTitle, array $allowedTypes)
+    private function assertValidType(string $type, string $typeTitle, array $allowedTypes): void
     {
         if (in_array(self::TYPE_INSTANCE_OF, $allowedTypes, true) && $this->isInstanceOfType($type)) {
             $this->assertValidInstanceOf($type);
@@ -94,19 +73,12 @@ class TypeValidator
         }
     }
 
-    /**
-     * @param string $valueType
-     * @return bool
-     */
-    private function isInstanceOfType($valueType)
+    private function isInstanceOfType(string $valueType): bool
     {
         return (substr($valueType, 0, strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
     }
 
-    /**
-     * @param string $valueType
-     */
-    private function assertValidInstanceOf($valueType)
+    private function assertValidInstanceOf(string $valueType): void
     {
         $class = $this->parseClass($valueType);
 
@@ -115,36 +87,22 @@ class TypeValidator
         }
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
-    private function parseClass($type)
+    private function parseClass(string $type): string
     {
         return substr($type, strlen(self::TYPE_INSTANCE_OF));
     }
 
-    /**
-     * @return string
-     */
-    public function getKeyType()
+    public function getKeyType(): string
     {
         return $this->stripInstanceOfPrefix($this->keyType);
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
-    private function stripInstanceOfPrefix($type)
+    private function stripInstanceOfPrefix(string $type): string
     {
         return str_replace(self::TYPE_INSTANCE_OF, '', $type);
     }
 
-    /**
-     * @return string
-     */
-    public function getValueType()
+    public function getValueType(): string
     {
         return $this->stripInstanceOfPrefix($this->valueType);
     }
@@ -152,17 +110,12 @@ class TypeValidator
     /**
      * @param <K> $key
      */
-    public function assertKeyType($key)
+    public function assertKeyType($key): void
     {
         $this->assertType($key, $this->keyType, 'key');
     }
 
-    /**
-     * @param mixed $givenType
-     * @param string $type
-     * @param string $typeTitle
-     */
-    private function assertType($givenType, $type, $typeTitle)
+    private function assertType($givenType, string $type, string $typeTitle): void
     {
         if ($this->isInstanceOfType($type)) {
             $this->assertInstanceOf($typeTitle, $givenType);
@@ -185,7 +138,7 @@ class TypeValidator
      * @param string $type
      * @param <V> $value
      */
-    private function assertInstanceOf($type, $value)
+    private function assertInstanceOf(string $type, $value): void
     {
         $class = $this->parseClass($this->valueType);
 
@@ -194,12 +147,7 @@ class TypeValidator
         }
     }
 
-    /**
-     * @param string $typeTitle
-     * @param string $typeExpected
-     * @param mixed $givenType
-     */
-    private function invalidTypeError($typeTitle, $typeExpected, $givenType)
+    private function invalidTypeError(string $typeTitle, string $typeExpected, $givenType): void
     {
         throw new \InvalidArgumentException(
             sprintf(
@@ -212,11 +160,7 @@ class TypeValidator
         );
     }
 
-    /**
-     * @param mixed $givenType
-     * @return string
-     */
-    private function getGivenTypeString($givenType)
+    private function getGivenTypeString($givenType): string
     {
         if (is_array($givenType)) {
             return 'Array';
@@ -234,7 +178,7 @@ class TypeValidator
     /**
      * @param <V> $value
      */
-    public function assertValueType($value)
+    public function assertValueType($value): void
     {
         $this->assertType($value, $this->valueType, 'value');
     }

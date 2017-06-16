@@ -1,28 +1,32 @@
 <?php
 
-namespace MF\Tests\Fixtures;
+namespace MF\Tests;
 
+use MF\Tests\Fixtures\DifferentEntity;
+use MF\Tests\Fixtures\EntityInterface;
+use MF\Tests\Fixtures\SimpleEntity;
 use MF\Validator\TypeValidator;
+use PHPUnit\Framework\TestCase;
 
-class TypeValidatorTest extends \PHPUnit_Framework_TestCase
+class TypeValidatorTest extends TestCase
 {
     /**
-     * @param string $keyType
-     * @param string $valueType
+     * @param string|null $keyType
+     * @param string|null $valueType
      * @param array $allowedKeyTypes
      * @param array $allowedValueTypes
      *
      * @dataProvider invalidCreationParamsProvider
      */
     public function testShouldThrowExceptionWhenBadTypeValidatorIsCreated(
-        $keyType,
-        $valueType,
+        ?string $keyType,
+        ?string $valueType,
         array $allowedKeyTypes,
         array $allowedValueTypes
     ) {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
-        new TypeValidator($keyType, $valueType, $allowedKeyTypes, $allowedValueTypes);
+        new TypeValidator((string) $keyType, (string) $valueType, $allowedKeyTypes, $allowedValueTypes);
     }
 
     public function invalidCreationParamsProvider()
@@ -140,6 +144,8 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
 
         $validator->assertKeyType($key);
         $validator->assertValueType($value);
+
+        $this->assertTrue(true);
     }
 
     /**
@@ -210,7 +216,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidKeyTypes($type, $key)
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $validator = $this->createValidator($type);
         $validator->assertKeyType($key);
@@ -278,7 +284,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidValueTypes($type, $value)
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $validator = $this->createValidator($type);
         $validator->assertValueType($value);
@@ -292,8 +298,8 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testShouldValidateClassTypeWithInvalidValue($type, $value)
     {
-        $this->setExpectedException(
-            \InvalidArgumentException::class,
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
             'Invalid value type argument "MF\Tests\Fixtures\DifferentEntity"<object> given - ' .
             '<instance of (MF\Tests\Fixtures\SimpleEntity)> expected'
         );
@@ -317,7 +323,8 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldThrowExceptionOnInvalidClassCreation()
     {
-        $this->setExpectedException(\InvalidArgumentException::class, 'Instance of has invalid class (badClass)');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Instance of has invalid class (badClass)');
 
         new TypeValidator(
             TypeValidator::TYPE_STRING,

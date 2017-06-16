@@ -15,7 +15,7 @@ TypeValidator for asserting types of values
 - [Usage](#usage)
 
 ## <a name="requirements"></a>Requirements
-- PHP 5.5
+- PHP 7.1
 
 
 ## <a name="installation"></a>Installation:

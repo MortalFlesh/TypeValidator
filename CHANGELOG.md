@@ -2,6 +2,10 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+- code health dependencies added
+- PhpUnit updated
+- BC: Drop PHP 5 support, PHP 7.1 required
+
 ### Added
 - packigist icons to readme
 
