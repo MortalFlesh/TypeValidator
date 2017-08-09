@@ -12,7 +12,7 @@ class TypeValidator
     const TYPE_OBJECT = 'object';
     const TYPE_INSTANCE_OF = 'instance_of_';
 
-    private static $types = [
+    private const TYPES = [
         self::TYPE_STRING,
         self::TYPE_INT,
         self::TYPE_FLOAT,
@@ -22,25 +22,52 @@ class TypeValidator
         self::TYPE_INSTANCE_OF,
     ];
 
-    /** @var string */
-    private $keyType;
+    private const KEY = 'key';
+    private const VALUE = 'value';
 
     /** @var string */
-    private $valueType;
+    private $KValue;
 
-    public function __construct(string $keyType, string $valueType, array $allowedKeyTypes, array $allowedValueTypes)
+    /** @var string */
+    private $TValue;
+
+    /** @var array */
+    private $allowedKValues;
+
+    /** @var array */
+    private $allowedTValues;
+
+    public function __construct(string $KValue, string $TValue, array $allowedKValues, array $allowedTValues)
     {
-        $keyType = $this->normalizeType($keyType);
-        $valueType = $this->normalizeType($valueType);
+        $KValue = $this->normalizeType($KValue);
+        $TValue = $this->normalizeType($TValue);
 
-        $allowedKeyTypes = $this->normalizeTypes($allowedKeyTypes);
-        $allowedValueTypes = $this->normalizeTypes($allowedValueTypes);
+        $allowedKValues = $this->normalizeTypes($allowedKValues);
+        $allowedTValues = $this->normalizeTypes($allowedTValues);
 
-        $this->assertValidType($keyType, 'key', $allowedKeyTypes);
-        $this->assertValidType($valueType, 'value', $allowedValueTypes);
+        $this->assertValidType($KValue, self::KEY, $allowedKValues);
+        $this->assertValidType($TValue, self::VALUE, $allowedTValues);
 
-        $this->keyType = $keyType;
-        $this->valueType = $valueType;
+        $this->KValue = $KValue;
+        $this->TValue = $TValue;
+        $this->allowedKValues = $allowedKValues;
+        $this->allowedTValues = $allowedTValues;
+    }
+
+    public function changeKeyType(string $KValue)
+    {
+        $KValue = $this->normalizeType($KValue);
+        $this->assertValidType($KValue, self::KEY, $this->allowedKValues);
+
+        $this->KValue = $KValue;
+    }
+
+    public function changeValueType(string $TValue)
+    {
+        $TValue = $this->normalizeType($TValue);
+        $this->assertValidType($TValue, self::VALUE, $this->allowedTValues);
+
+        $this->TValue = $TValue;
     }
 
     private function normalizeTypes(array $types): array
@@ -52,7 +79,7 @@ class TypeValidator
 
     private function normalizeType(string $type): string
     {
-        return !$this->isInstanceOfType($type) && !in_array($type, self::$types, true)
+        return !$this->isInstanceOfType($type) && !in_array($type, self::TYPES, true)
             ? self::TYPE_INSTANCE_OF . $type
             : $type;
     }
@@ -73,14 +100,14 @@ class TypeValidator
         }
     }
 
-    private function isInstanceOfType(string $valueType): bool
+    private function isInstanceOfType(string $TValue): bool
     {
-        return (substr($valueType, 0, strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
+        return (substr($TValue, 0, strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
     }
 
-    private function assertValidInstanceOf(string $valueType): void
+    private function assertValidInstanceOf(string $TValue): void
     {
-        $class = $this->parseClass($valueType);
+        $class = $this->parseClass($TValue);
 
         if (!(class_exists($class) || interface_exists($class))) {
             throw new \InvalidArgumentException(sprintf('Instance of has invalid class (%s)', $class));
@@ -94,7 +121,7 @@ class TypeValidator
 
     public function getKeyType(): string
     {
-        return $this->stripInstanceOfPrefix($this->keyType);
+        return $this->stripInstanceOfPrefix($this->KValue);
     }
 
     private function stripInstanceOfPrefix(string $type): string
@@ -104,7 +131,7 @@ class TypeValidator
 
     public function getValueType(): string
     {
-        return $this->stripInstanceOfPrefix($this->valueType);
+        return $this->stripInstanceOfPrefix($this->TValue);
     }
 
     /**
@@ -112,7 +139,7 @@ class TypeValidator
      */
     public function assertKeyType($key): void
     {
-        $this->assertType($key, $this->keyType, 'key');
+        $this->assertType($key, $this->KValue, self::KEY);
     }
 
     private function assertType($givenType, string $type, string $typeTitle): void
@@ -140,7 +167,7 @@ class TypeValidator
      */
     private function assertInstanceOf(string $type, $value): void
     {
-        $class = $this->parseClass($this->valueType);
+        $class = $this->parseClass($this->TValue);
 
         if (!$value instanceof $class) {
             $this->invalidTypeError($type, sprintf('instance of (%s)', $class), $value);
@@ -180,6 +207,6 @@ class TypeValidator
      */
     public function assertValueType($value): void
     {
-        $this->assertType($value, $this->valueType, 'value');
+        $this->assertType($value, $this->TValue, self::VALUE);
     }
 }

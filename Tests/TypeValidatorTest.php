@@ -333,4 +333,23 @@ class TypeValidatorTest extends TestCase
             [TypeValidator::TYPE_INSTANCE_OF]
         );
     }
+
+    public function testShouldChangeAssertedTypeOfValidator()
+    {
+        $string = 'string';
+        $int = 1;
+
+        $validator = new TypeValidator('string', 'string', ['string', 'int'], ['string', 'int']);
+
+        $validator->assertKeyType($string);
+        $validator->assertValueType($string);
+
+        $validator->changeValueType('int');
+        $validator->assertValueType($int);
+
+        $validator->changeKeyType('int');
+        $validator->assertKeyType($int);
+
+        $this->assertTrue(true);
+    }
 }
