@@ -2,6 +2,8 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+
+## 2.1.0 - 2017-08-09
 - add possibility of changing `key` and `value` types
 
 ## 2.0.0 - 2017-06-16
