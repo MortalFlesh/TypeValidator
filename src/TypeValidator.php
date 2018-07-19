@@ -4,15 +4,19 @@ namespace MF\Validator;
 
 class TypeValidator
 {
-    const TYPE_STRING = 'string';
-    const TYPE_INT = 'int';
-    const TYPE_FLOAT = 'float';
-    const TYPE_BOOL = 'bool';
-    const TYPE_ARRAY = 'array';
-    const TYPE_OBJECT = 'object';
-    const TYPE_INSTANCE_OF = 'instance_of_';
+    public const TYPE_ANY = 'any';
+    public const TYPE_MIXED = 'mixed';
+    public const TYPE_STRING = 'string';
+    public const TYPE_INT = 'int';
+    public const TYPE_FLOAT = 'float';
+    public const TYPE_BOOL = 'bool';
+    public const TYPE_ARRAY = 'array';
+    public const TYPE_OBJECT = 'object';
+    public const TYPE_INSTANCE_OF = 'instance_of_';
 
     private const TYPES = [
+        self::TYPE_ANY,
+        self::TYPE_MIXED,
         self::TYPE_STRING,
         self::TYPE_INT,
         self::TYPE_FLOAT,
@@ -144,7 +148,9 @@ class TypeValidator
 
     private function assertType($givenType, string $type, string $typeTitle): void
     {
-        if ($this->isInstanceOfType($type)) {
+        if (in_array($type, [self::TYPE_ANY, self::TYPE_MIXED], true)) {
+            return;
+        } elseif ($this->isInstanceOfType($type)) {
             $this->assertInstanceOf($typeTitle, $givenType);
         } elseif ($type === self::TYPE_STRING && !is_string($givenType)) {
             $this->invalidTypeError($typeTitle, self::TYPE_STRING, $givenType);
