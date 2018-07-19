@@ -126,13 +126,12 @@ class TypeValidatorTest extends TestCase
     }
 
     /**
-     * @param string $type
      * @param mixed $key
      * @param mixed $value
      *
      * @dataProvider validKeyValuesProvider
      */
-    public function testShouldAssertKeyValueType($type, $key, $value): void
+    public function testShouldAssertKeyValueType(string $type, $key, $value): void
     {
         $validator = $this->createValidator($type);
 
@@ -142,11 +141,7 @@ class TypeValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @param string $type
-     * @return TypeValidator
-     */
-    private function createValidator($type)
+    private function createValidator(string $type): TypeValidator
     {
         return new TypeValidator($type, $type, [$type], [$type]);
     }
@@ -200,6 +195,38 @@ class TypeValidatorTest extends TestCase
                 'value' => new SimpleEntity(2),
             ],
         ];
+    }
+
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @dataProvider validKeyValuesProvider
+     */
+    public function testShouldAllowAnyKeyValueTypeOfMixedType(string $type, $key, $value): void
+    {
+        $validator = $this->createValidator('mixed');
+
+        $validator->assertKeyType($key);
+        $validator->assertValueType($value);
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @dataProvider validKeyValuesProvider
+     */
+    public function testShouldAllowAnyKeyValueTypeOfAnyType(string $type, $key, $value): void
+    {
+        $validator = $this->createValidator('any');
+
+        $validator->assertKeyType($key);
+        $validator->assertValueType($value);
+
+        $this->assertTrue(true);
     }
 
     /**

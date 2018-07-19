@@ -5,6 +5,7 @@
 - Add `lmc/coding-standard`
 - Rename `Tests` dir to `tests`
 - Update dev dependencies
+- Allow `mixed` and `any` type to match any given value
 
 ## 2.1.0 - 2017-08-09
 - add possibility of changing `key` and `value` types
