@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MF\Validator;
 
@@ -54,7 +54,7 @@ class TypeValidator
         $this->allowedTValues = $allowedTValues;
     }
 
-    public function changeKeyType(string $KValue)
+    public function changeKeyType(string $KValue): void
     {
         $KValue = $this->normalizeType($KValue);
         $this->assertValidType($KValue, self::KEY, $this->allowedKValues);
@@ -62,7 +62,7 @@ class TypeValidator
         $this->KValue = $KValue;
     }
 
-    public function changeValueType(string $TValue)
+    public function changeValueType(string $TValue): void
     {
         $TValue = $this->normalizeType($TValue);
         $this->assertValidType($TValue, self::VALUE, $this->allowedTValues);
@@ -102,7 +102,7 @@ class TypeValidator
 
     private function isInstanceOfType(string $TValue): bool
     {
-        return (substr($TValue, 0, strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
+        return (mb_substr($TValue, 0, (int) mb_strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
     }
 
     private function assertValidInstanceOf(string $TValue): void
@@ -116,7 +116,7 @@ class TypeValidator
 
     private function parseClass(string $type): string
     {
-        return substr($type, strlen(self::TYPE_INSTANCE_OF));
+        return mb_substr($type, (int) mb_strlen(self::TYPE_INSTANCE_OF));
     }
 
     public function getKeyType(): string
@@ -148,7 +148,7 @@ class TypeValidator
             $this->assertInstanceOf($typeTitle, $givenType);
         } elseif ($type === self::TYPE_STRING && !is_string($givenType)) {
             $this->invalidTypeError($typeTitle, self::TYPE_STRING, $givenType);
-        } elseif ($type === self::TYPE_INT && !is_integer($givenType)) {
+        } elseif ($type === self::TYPE_INT && !is_int($givenType)) {
             $this->invalidTypeError($typeTitle, self::TYPE_INT, $givenType);
         } elseif ($type === self::TYPE_FLOAT && !is_float($givenType)) {
             $this->invalidTypeError($typeTitle, self::TYPE_FLOAT, $givenType);
@@ -197,9 +197,9 @@ class TypeValidator
             return 'true';
         } elseif ($givenType === false) {
             return 'false';
-        } else {
-            return sprintf('%s', $givenType);
         }
+
+        return sprintf('%s', $givenType);
     }
 
     /**

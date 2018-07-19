@@ -1,21 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace MF\Tests;
+namespace MF\Validator;
 
-use MF\Tests\Fixtures\DifferentEntity;
-use MF\Tests\Fixtures\EntityInterface;
-use MF\Tests\Fixtures\SimpleEntity;
-use MF\Validator\TypeValidator;
+use MF\Validator\Fixtures\DifferentEntity;
+use MF\Validator\Fixtures\EntityInterface;
+use MF\Validator\Fixtures\SimpleEntity;
 use PHPUnit\Framework\TestCase;
 
 class TypeValidatorTest extends TestCase
 {
     /**
-     * @param string|null $keyType
-     * @param string|null $valueType
-     * @param array $allowedKeyTypes
-     * @param array $allowedValueTypes
-     *
      * @dataProvider invalidCreationParamsProvider
      */
     public function testShouldThrowExceptionWhenBadTypeValidatorIsCreated(
@@ -23,7 +17,7 @@ class TypeValidatorTest extends TestCase
         ?string $valueType,
         array $allowedKeyTypes,
         array $allowedValueTypes
-    ) {
+    ): void {
         $this->expectException(\InvalidArgumentException::class);
 
         new TypeValidator((string) $keyType, (string) $valueType, $allowedKeyTypes, $allowedValueTypes);
@@ -94,7 +88,7 @@ class TypeValidatorTest extends TestCase
         array $allowedValueTypes,
         $expectedKeyType,
         $expectedValueType
-    ) {
+    ): void {
         $typeValidator = new TypeValidator($keyType, $valueType, $allowedKeyTypes, $allowedValueTypes);
 
         $this->assertEquals($expectedKeyType, $typeValidator->getKeyType());
@@ -138,7 +132,7 @@ class TypeValidatorTest extends TestCase
      *
      * @dataProvider validKeyValuesProvider
      */
-    public function testShouldAssertKeyValueType($type, $key, $value)
+    public function testShouldAssertKeyValueType($type, $key, $value): void
     {
         $validator = $this->createValidator($type);
 
@@ -209,12 +203,11 @@ class TypeValidatorTest extends TestCase
     }
 
     /**
-     * @param string $type
      * @param mixed $key
      *
      * @dataProvider invalidTypesProvider
      */
-    public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidKeyTypes($type, $key)
+    public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidKeyTypes(string $type, $key): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -277,12 +270,11 @@ class TypeValidatorTest extends TestCase
     }
 
     /**
-     * @param string $type
      * @param mixed $value
      *
      * @dataProvider invalidTypesProvider
      */
-    public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidValueTypes($type, $value)
+    public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidValueTypes(string $type, $value): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -291,17 +283,16 @@ class TypeValidatorTest extends TestCase
     }
 
     /**
-     * @param string $type
      * @param mixed $value
      *
      * @dataProvider invalidValuesProvider
      */
-    public function testShouldValidateClassTypeWithInvalidValue($type, $value)
+    public function testShouldValidateClassTypeWithInvalidValue(string $type, $value): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Invalid value type argument "MF\Tests\Fixtures\DifferentEntity"<object> given - ' .
-            '<instance of (MF\Tests\Fixtures\SimpleEntity)> expected'
+            'Invalid value type argument "MF\Validator\Fixtures\DifferentEntity"<object> given - ' .
+            '<instance of (MF\Validator\Fixtures\SimpleEntity)> expected'
         );
 
         $validator = new TypeValidator(
@@ -321,7 +312,7 @@ class TypeValidatorTest extends TestCase
         ];
     }
 
-    public function testShouldThrowExceptionOnInvalidClassCreation()
+    public function testShouldThrowExceptionOnInvalidClassCreation(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Instance of has invalid class (badClass)');
@@ -334,7 +325,7 @@ class TypeValidatorTest extends TestCase
         );
     }
 
-    public function testShouldChangeAssertedTypeOfValidator()
+    public function testShouldChangeAssertedTypeOfValidator(): void
     {
         $string = 'string';
         $int = 1;
