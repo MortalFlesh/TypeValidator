@@ -2,6 +2,8 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+
+## 2.2.0 - 2018-07-19
 - Add `lmc/coding-standard`
 - Rename `Tests` dir to `tests`
 - Update dev dependencies
