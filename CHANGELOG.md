@@ -2,6 +2,9 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+- Add `lmc/coding-standard`
+- Rename `Tests` dir to `tests`
+- Update dev dependencies
 
 ## 2.1.0 - 2017-08-09
 - add possibility of changing `key` and `value` types
