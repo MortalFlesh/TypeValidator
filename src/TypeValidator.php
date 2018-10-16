@@ -11,6 +11,7 @@ class TypeValidator
     public const TYPE_FLOAT = 'float';
     public const TYPE_BOOL = 'bool';
     public const TYPE_ARRAY = 'array';
+    public const TYPE_CALLABLE = 'callable';
     public const TYPE_OBJECT = 'object';
     public const TYPE_INSTANCE_OF = 'instance_of_';
 
@@ -22,6 +23,7 @@ class TypeValidator
         self::TYPE_FLOAT,
         self::TYPE_BOOL,
         self::TYPE_ARRAY,
+        self::TYPE_CALLABLE,
         self::TYPE_OBJECT,
         self::TYPE_INSTANCE_OF,
     ];
@@ -106,7 +108,7 @@ class TypeValidator
 
     private function isInstanceOfType(string $TValue): bool
     {
-        return (mb_substr($TValue, 0, (int) mb_strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
+        return (mb_substr($TValue, 0, mb_strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
     }
 
     private function assertValidInstanceOf(string $TValue): void
@@ -120,7 +122,7 @@ class TypeValidator
 
     private function parseClass(string $type): string
     {
-        return mb_substr($type, (int) mb_strlen(self::TYPE_INSTANCE_OF));
+        return mb_substr($type, mb_strlen(self::TYPE_INSTANCE_OF));
     }
 
     public function getKeyType(): string
@@ -164,11 +166,12 @@ class TypeValidator
             $this->invalidTypeError($typeTitle, self::TYPE_ARRAY, $givenType);
         } elseif ($type === self::TYPE_OBJECT && !is_object($givenType)) {
             $this->invalidTypeError($typeTitle, self::TYPE_OBJECT, $givenType);
+        } elseif ($type === self::TYPE_CALLABLE && !is_callable($givenType)) {
+            $this->invalidTypeError($typeTitle, self::TYPE_CALLABLE, $givenType);
         }
     }
 
     /**
-     * @param string $type
      * @param <V> $value
      */
     private function assertInstanceOf(string $type, $value): void
@@ -195,7 +198,9 @@ class TypeValidator
 
     private function getGivenTypeString($givenType): string
     {
-        if (is_array($givenType)) {
+        if (is_callable($givenType)) {
+            return 'callable';
+        } elseif (is_array($givenType)) {
             return 'Array';
         } elseif (is_object($givenType)) {
             return get_class($givenType);

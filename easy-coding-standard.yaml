@@ -1,2 +1,7 @@
 imports:
     - { resource: '%vendor_dir%/lmc/coding-standard/easy-coding-standard.yaml' }
+
+parameters:
+    skip:
+        PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer:
+            - 'tests/TypeValidatorTest.php' # just till PR is merged
