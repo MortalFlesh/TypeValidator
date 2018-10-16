@@ -7,6 +7,11 @@ class SimpleEntity implements EntityInterface
     /** @var int */
     private $id;
 
+    public static function create(int $id): self
+    {
+        return new self($id);
+    }
+
     public function __construct(int $id)
     {
         $this->id = $id;

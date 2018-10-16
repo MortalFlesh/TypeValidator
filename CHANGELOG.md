@@ -3,6 +3,7 @@
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
 - [dev] update and fix code style
+- Allow `callable` type
 
 ## 2.2.0 - 2018-07-19
 - Add `lmc/coding-standard`
@@ -19,7 +20,7 @@
 - BC: Drop PHP 5 support, PHP 7.1 required
 
 ### Added
-- packigist icons to readme
+- packagist icons to readme
 
 ## 1.0.0 - 2016-09-05
 ### Added

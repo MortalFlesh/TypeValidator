@@ -122,6 +122,14 @@ class TypeValidatorTest extends TestCase
                 'expectedKeyType' => 'int',
                 'expectedValueType' => SimpleEntity::class,
             ],
+            [
+                'keyType' => 'int',
+                'valueType' => 'callable',
+                'allowedKeyTypes' => ['string', 'float', 'int'],
+                'allowedValueTypes' => ['callable'],
+                'expectedKeyType' => 'int',
+                'expectedValueType' => 'callable',
+            ],
         ];
     }
 
@@ -193,6 +201,28 @@ class TypeValidatorTest extends TestCase
                 'type' => EntityInterface::class,
                 'key' => new SimpleEntity(1),
                 'value' => new SimpleEntity(2),
+            ],
+            [
+                'type' => 'callable',
+                'key' => function () {
+                    return 'key';
+                },
+                'value' => 'trim',
+            ],
+            [
+                'type' => 'callable',
+                'key' => [$this, 'assertSame'],
+                'value' => [SimpleEntity::class, 'create'],
+            ],
+            [
+                'type' => 'array',
+                'key' => [SimpleEntity::class, 'create'],
+                'value' => [$this, 'assertSame'],
+            ],
+            [
+                'type' => 'string',
+                'key' => 'trim',
+                'value' => 'strpos',
             ],
         ];
     }
@@ -292,6 +322,22 @@ class TypeValidatorTest extends TestCase
             'instance_of_map|instance_of_list' => [
                 'type' => EntityInterface::class,
                 'invalid' => new DifferentEntity(1),
+            ],
+            'not defined function in callable pair' => [
+                'type' => TypeValidator::TYPE_CALLABLE,
+                'invalid' => [SimpleEntity::class, 'notDefinedMethod'],
+            ],
+            'array|callable' => [
+                'type' => TypeValidator::TYPE_ARRAY,
+                'invalid' => function () {
+                    return 'foo';
+                },
+            ],
+            'string|callable' => [
+                'type' => TypeValidator::TYPE_STRING,
+                'invalid' => function () {
+                    return 'foo';
+                },
             ],
         ];
     }
