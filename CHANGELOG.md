@@ -2,6 +2,8 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+
+## 2.3.0 - 2018-10-16
 - [dev] update and fix code style
 - Allow `callable` type
 
