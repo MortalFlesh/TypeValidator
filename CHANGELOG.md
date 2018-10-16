@@ -2,6 +2,7 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+- [dev] update and fix code style
 
 ## 2.2.0 - 2018-07-19
 - Add `lmc/coding-standard`

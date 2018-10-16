@@ -106,7 +106,7 @@ class TypeValidator
 
     private function isInstanceOfType(string $TValue): bool
     {
-        return (mb_substr($TValue, 0, (int) mb_strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
+        return (mb_substr($TValue, 0, mb_strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
     }
 
     private function assertValidInstanceOf(string $TValue): void
@@ -120,7 +120,7 @@ class TypeValidator
 
     private function parseClass(string $type): string
     {
-        return mb_substr($type, (int) mb_strlen(self::TYPE_INSTANCE_OF));
+        return mb_substr($type, mb_strlen(self::TYPE_INSTANCE_OF));
     }
 
     public function getKeyType(): string
@@ -168,7 +168,6 @@ class TypeValidator
     }
 
     /**
-     * @param string $type
      * @param <V> $value
      */
     private function assertInstanceOf(string $type, $value): void
