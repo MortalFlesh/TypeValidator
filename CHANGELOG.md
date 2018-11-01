@@ -2,6 +2,8 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+
+## 2.4.0 - 2018-11-01
 - Allow custom `Exception` to be thrown on assertion failed
 
 ## 2.3.0 - 2018-10-16
