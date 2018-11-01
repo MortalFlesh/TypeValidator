@@ -33,18 +33,27 @@ class TypeValidator
 
     /** @var string */
     private $KValue;
-
     /** @var string */
     private $TValue;
-
     /** @var array */
     private $allowedKValues;
-
     /** @var array */
     private $allowedTValues;
+    /** @var string|null */
+    private $exceptionClass;
 
-    public function __construct(string $KValue, string $TValue, array $allowedKValues, array $allowedTValues)
-    {
+    public function __construct(
+        string $KValue,
+        string $TValue,
+        array $allowedKValues,
+        array $allowedTValues,
+        string $exceptionClass = null
+    ) {
+        if ($exceptionClass !== null) {
+            $this->assertExceptionClass($exceptionClass);
+            $this->exceptionClass = $exceptionClass;
+        }
+
         $KValue = $this->normalizeType($KValue);
         $TValue = $this->normalizeType($TValue);
 
@@ -58,6 +67,17 @@ class TypeValidator
         $this->TValue = $TValue;
         $this->allowedKValues = $allowedKValues;
         $this->allowedTValues = $allowedTValues;
+    }
+
+    private function assertExceptionClass(string $exceptionClass): void
+    {
+        if (!class_exists($exceptionClass)) {
+            throw new \LogicException(sprintf('Given exception class "%s" does not exists.', $exceptionClass));
+        }
+
+        if (!array_key_exists(\Throwable::class, class_implements($exceptionClass))) {
+            throw new \LogicException('Given exception class must implement Throwable interface');
+        }
     }
 
     public function changeKeyType(string $KValue): void
@@ -90,12 +110,17 @@ class TypeValidator
             : $type;
     }
 
+    private function isInstanceOfType(string $TValue): bool
+    {
+        return (mb_substr($TValue, 0, mb_strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
+    }
+
     private function assertValidType(string $type, string $typeTitle, array $allowedTypes): void
     {
         if (in_array(self::TYPE_INSTANCE_OF, $allowedTypes, true) && $this->isInstanceOfType($type)) {
             $this->assertValidInstanceOf($type);
         } elseif (!in_array($type, $allowedTypes, true)) {
-            throw new \InvalidArgumentException(
+            throw $this->createException(
                 sprintf(
                     'Not allowed %s type given - <%s>, expected one of [%s]',
                     $typeTitle,
@@ -106,23 +131,25 @@ class TypeValidator
         }
     }
 
-    private function isInstanceOfType(string $TValue): bool
-    {
-        return (mb_substr($TValue, 0, mb_strlen(self::TYPE_INSTANCE_OF)) === self::TYPE_INSTANCE_OF);
-    }
-
     private function assertValidInstanceOf(string $TValue): void
     {
         $class = $this->parseClass($TValue);
 
         if (!(class_exists($class) || interface_exists($class))) {
-            throw new \InvalidArgumentException(sprintf('Instance of has invalid class (%s)', $class));
+            throw $this->createException(sprintf('Instance of has invalid class (%s)', $class));
         }
     }
 
     private function parseClass(string $type): string
     {
         return mb_substr($type, mb_strlen(self::TYPE_INSTANCE_OF));
+    }
+
+    private function createException(string $message): \Throwable
+    {
+        $exceptionClass = $this->exceptionClass ?? \InvalidArgumentException::class;
+
+        return new $exceptionClass($message);
     }
 
     public function getKeyType(): string
@@ -185,7 +212,7 @@ class TypeValidator
 
     private function invalidTypeError(string $typeTitle, string $typeExpected, $givenType): void
     {
-        throw new \InvalidArgumentException(
+        throw $this->createException(
             sprintf(
                 'Invalid %s type argument "%s"<%s> given - <%s> expected',
                 $typeTitle,

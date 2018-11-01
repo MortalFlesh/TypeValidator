@@ -2,6 +2,7 @@
 
 namespace MF\Validator;
 
+use MF\Validator\Fixtures\CustomException;
 use MF\Validator\Fixtures\DifferentEntity;
 use MF\Validator\Fixtures\EntityInterface;
 use MF\Validator\Fixtures\SimpleEntity;
@@ -415,5 +416,46 @@ class TypeValidatorTest extends TestCase
         $validator->assertKeyType($int);
 
         $this->assertTrue(true);
+    }
+
+    public function testShouldThrowCustomExceptionOnCreation(): void
+    {
+        $this->expectException(CustomException::class);
+        $this->expectExceptionMessage('Not allowed key type given - <string>, expected one of []');
+
+        new TypeValidator('string', 'string', [], [], CustomException::class);
+    }
+
+    public function testShouldThrowCustomExceptionOnAssertion(): void
+    {
+        $validator = new TypeValidator('string', 'string', ['string'], ['string'], CustomException::class);
+
+        $this->expectException(CustomException::class);
+        $this->expectExceptionMessage('Invalid key type argument "1"<integer> given - <string> expected');
+
+        $validator->assertKeyType(1);
+    }
+
+    /** @dataProvider provideInvalidExceptionClass */
+    public function testShouldNotCreateTypeValidatorWithInvalidCustomException(
+        string $invalidException,
+        string $expectedMessage
+    ): void {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage($expectedMessage);
+
+        new TypeValidator('string', 'string', ['string'], ['string'], $invalidException);
+    }
+
+    public function provideInvalidExceptionClass(): array
+    {
+        return [
+            // invalidException, expectedMessage
+            'not a class' => ['Just some string', 'Given exception class "Just some string" does not exists.'],
+            'not implements Throwable interface' => [
+                SimpleEntity::class,
+                'Given exception class must implement Throwable interface',
+            ],
+        ];
     }
 }
