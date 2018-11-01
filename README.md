@@ -38,3 +38,19 @@ $validator->assertValueType(1);
 
 $validator->assertValueType('invalid value type');  // throws InvalidArgumentException
 ```
+
+### With Custom Exception
+```php
+$validator = new TypeValidator(
+    TypeValidator::TYPE_STRING,
+    TypeValidator::TYPE_INT,
+    [TypeValidator::TYPE_STRING],
+    [TypeValidator::INT],
+    App\MyCustomException::class
+);
+
+$validator->assertKeyType('string - value');
+$validator->assertValueType(1);
+
+$validator->assertValueType('invalid value type');  // throws App\MyCustomException
+```
