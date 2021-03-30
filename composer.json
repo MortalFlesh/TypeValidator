@@ -21,13 +21,14 @@
         }
     },
     "require": {
-        "php": "^7.1"
+        "php": "^7.4"
     },
     "require-dev": {
-        "lmc/coding-standard": "^1.1",
-        "php-coveralls/php-coveralls": "^2.1",
-        "phpstan/phpstan-shim": "^0.10",
-        "phpunit/phpunit": "^7.0"
+        "lmc/coding-standard": "^3.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^0.12.82",
+        "phpstan/phpstan-phpunit": "^0.12.18",
+        "phpunit/phpunit": "^9.5"
     },
     "config": {
         "sort-packages": true
@@ -35,18 +36,18 @@
     "scripts": {
         "all": [
             "@analyze",
-            "@tests-ci"
+            "@tests"
         ],
         "analyze": [
             "@cs",
             "@phpstan"
         ],
-        "cs": "vendor/bin/ecs check -vvv --ansi -- src/ tests/",
+        "cs": "vendor/bin/ecs check --ansi -- src/ tests/",
         "phpstan": "vendor/bin/phpstan analyze src tests -c phpstan.neon --ansi --level 7",
         "tests": "vendor/bin/phpunit",
         "tests-ci": "php -dxdebug.coverage_enable=1 vendor/bin/phpunit -c phpunit.xml.dist --exclude-group local",
         "fix": [
-            "vendor/bin/ecs check -vvv --ansi --clear-cache --fix -- src/ tests/"
+            "vendor/bin/ecs check --ansi --clear-cache --fix -- src/ tests/"
         ]
     }
 }
