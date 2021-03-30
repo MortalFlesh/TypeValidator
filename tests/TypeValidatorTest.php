@@ -24,7 +24,7 @@ class TypeValidatorTest extends TestCase
         new TypeValidator((string) $keyType, (string) $valueType, $allowedKeyTypes, $allowedValueTypes);
     }
 
-    public function invalidCreationParamsProvider()
+    public function invalidCreationParamsProvider(): array
     {
         return [
             'not allowed type' => [
@@ -96,7 +96,7 @@ class TypeValidatorTest extends TestCase
         $this->assertEquals($expectedValueType, $typeValidator->getValueType());
     }
 
-    public function creationParamsProvider()
+    public function creationParamsProvider(): array
     {
         return [
             [
@@ -155,7 +155,7 @@ class TypeValidatorTest extends TestCase
         return new TypeValidator($type, $type, [$type], [$type]);
     }
 
-    public function validKeyValuesProvider()
+    public function validKeyValuesProvider(): array
     {
         return [
             [
@@ -273,7 +273,7 @@ class TypeValidatorTest extends TestCase
         $validator->assertKeyType($key);
     }
 
-    public function invalidTypesProvider()
+    public function invalidTypesProvider(): array
     {
         return [
             'string|int' => [
@@ -379,7 +379,7 @@ class TypeValidatorTest extends TestCase
         $validator->assertValueType($value);
     }
 
-    public function invalidValuesProvider()
+    public function invalidValuesProvider(): array
     {
         return [
             'map/list' => [SimpleEntity::class, new DifferentEntity(1)],

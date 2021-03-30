@@ -2,6 +2,7 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+- Require php ^7.4 and update dependencies
 
 ## 2.4.0 - 2018-11-01
 - Allow custom `Exception` to be thrown on assertion failed

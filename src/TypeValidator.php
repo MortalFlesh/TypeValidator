@@ -168,13 +168,14 @@ class TypeValidator
     }
 
     /**
-     * @param <K> $key
+     * @param mixed $key <K>
      */
     public function assertKeyType($key): void
     {
         $this->assertType($key, $this->KValue, self::KEY);
     }
 
+    /** @param mixed $givenType */
     private function assertType($givenType, string $type, string $typeTitle): void
     {
         if (in_array($type, [self::TYPE_ANY, self::TYPE_MIXED], true)) {
@@ -199,7 +200,7 @@ class TypeValidator
     }
 
     /**
-     * @param <V> $value
+     * @param mixed $value <V>
      */
     private function assertInstanceOf(string $type, $value): void
     {
@@ -210,6 +211,7 @@ class TypeValidator
         }
     }
 
+    /** @param mixed $givenType */
     private function invalidTypeError(string $typeTitle, string $typeExpected, $givenType): void
     {
         throw $this->createException(
@@ -223,6 +225,7 @@ class TypeValidator
         );
     }
 
+    /** @param mixed $givenType */
     private function getGivenTypeString($givenType): string
     {
         if (is_callable($givenType)) {
@@ -241,7 +244,7 @@ class TypeValidator
     }
 
     /**
-     * @param <V> $value
+     * @param mixed $value <V>
      */
     public function assertValueType($value): void
     {

@@ -1,4 +1,6 @@
 parameters:
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
     ignoreErrors:
-        - '#PHPDoc tag \@param has invalid value \(<K> \$key\)#'
-        - '#PHPDoc tag \@param has invalid value \(<V> \$value\)#'
+        - '#. function array_key_exists expects array, array<string, string>\|false given.#'
