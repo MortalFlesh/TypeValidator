@@ -10,9 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class TypeValidatorTest extends TestCase
 {
-    /**
-     * @dataProvider invalidCreationParamsProvider
-     */
+    /** @dataProvider invalidCreationParamsProvider */
     public function testShouldThrowExceptionWhenBadTypeValidatorIsCreated(
         ?string $keyType,
         ?string $valueType,
@@ -72,23 +70,14 @@ class TypeValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @param string $keyType
-     * @param string $valueType
-     * @param array $allowedKeyTypes
-     * @param array $allowedValueTypes
-     * @param string $expectedKeyType
-     * @param string $expectedValueType
-     *
-     * @dataProvider creationParamsProvider
-     */
+    /** @dataProvider creationParamsProvider */
     public function testShouldCreateTypeValidator(
-        $keyType,
-        $valueType,
+        string $keyType,
+        string $valueType,
         array $allowedKeyTypes,
         array $allowedValueTypes,
-        $expectedKeyType,
-        $expectedValueType
+        string $expectedKeyType,
+        string $expectedValueType
     ): void {
         $typeValidator = new TypeValidator($keyType, $valueType, $allowedKeyTypes, $allowedValueTypes);
 
@@ -134,13 +123,8 @@ class TypeValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     *
-     * @dataProvider validKeyValuesProvider
-     */
-    public function testShouldAssertKeyValueType(string $type, $key, $value): void
+    /** @dataProvider validKeyValuesProvider */
+    public function testShouldAssertKeyValueType(string $type, mixed $key, mixed $value): void
     {
         $validator = $this->createValidator($type);
 
@@ -228,13 +212,8 @@ class TypeValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     *
-     * @dataProvider validKeyValuesProvider
-     */
-    public function testShouldAllowAnyKeyValueTypeOfMixedType(string $type, $key, $value): void
+    /** @dataProvider validKeyValuesProvider */
+    public function testShouldAllowAnyKeyValueTypeOfMixedType(string $type, mixed $key, mixed $value): void
     {
         $validator = $this->createValidator('mixed');
 
@@ -244,13 +223,8 @@ class TypeValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     *
-     * @dataProvider validKeyValuesProvider
-     */
-    public function testShouldAllowAnyKeyValueTypeOfAnyType(string $type, $key, $value): void
+    /** @dataProvider validKeyValuesProvider */
+    public function testShouldAllowAnyKeyValueTypeOfAnyType(string $type, mixed $key, mixed $value): void
     {
         $validator = $this->createValidator('any');
 
@@ -260,12 +234,8 @@ class TypeValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @param mixed $key
-     *
-     * @dataProvider invalidTypesProvider
-     */
-    public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidKeyTypes(string $type, $key): void
+    /** @dataProvider invalidTypesProvider */
+    public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidKeyTypes(string $type, mixed $key): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -343,25 +313,19 @@ class TypeValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @dataProvider invalidTypesProvider
-     */
-    public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidValueTypes(string $type, $value): void
-    {
+    /** @dataProvider invalidTypesProvider */
+    public function testShouldThrowInvalidArgumentExceptionWhenAssertingInvalidValueTypes(
+        string $type,
+        mixed $value
+    ): void {
         $this->expectException(\InvalidArgumentException::class);
 
         $validator = $this->createValidator($type);
         $validator->assertValueType($value);
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @dataProvider invalidValuesProvider
-     */
-    public function testShouldValidateClassTypeWithInvalidValue(string $type, $value): void
+    /** @dataProvider invalidValuesProvider */
+    public function testShouldValidateClassTypeWithInvalidValue(string $type, mixed $value): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(

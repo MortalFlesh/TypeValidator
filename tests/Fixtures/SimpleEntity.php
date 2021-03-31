@@ -4,8 +4,7 @@ namespace MF\Validator\Fixtures;
 
 class SimpleEntity implements EntityInterface
 {
-    /** @var int */
-    private $id;
+    private int $id;
 
     public static function create(int $id): self
     {

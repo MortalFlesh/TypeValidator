@@ -2,6 +2,7 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+- Require php ^8.0
 
 ## 3.0.0 - 2020-03-30
 - Require php ^7.4 and update dependencies

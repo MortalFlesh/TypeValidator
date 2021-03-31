@@ -4,8 +4,7 @@ namespace MF\Validator\Fixtures;
 
 class ComplexEntity implements EntityInterface
 {
-    /** @var SimpleEntity */
-    private $simpleEntity;
+    private SimpleEntity $simpleEntity;
 
     public function __construct(SimpleEntity $simpleEntity)
     {
