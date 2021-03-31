@@ -1,6 +1,5 @@
 {
     "name": "mf/type-validator",
-    "version": "3.0.0",
     "description": "TypeValidator for asserting types of values",
     "type": "library",
     "license": "MIT",
@@ -21,7 +20,7 @@
         }
     },
     "require": {
-        "php": "^7.4"
+        "php": "^8.0"
     },
     "require-dev": {
         "lmc/coding-standard": "^3.0",
