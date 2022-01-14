@@ -137,8 +137,11 @@ class TypeValidator
     private function createException(string $message): \Throwable
     {
         $exceptionClass = $this->exceptionClass ?? \InvalidArgumentException::class;
+        $error = new $exceptionClass($message);
 
-        return new $exceptionClass($message);
+        return $error instanceof \Throwable
+            ? $error
+            : new \InvalidArgumentException($message);
     }
 
     public function getKeyType(): string
