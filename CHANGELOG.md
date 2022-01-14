@@ -2,6 +2,8 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Added, Changed, Fixed, Removed) should be added as needed. -->
 ## Unreleased
+
+## 4.1.0 - 2021-01-14
 - Allow php 8.1 and update dev dependencies
 
 ## 4.0.0 - 2020-03-31
